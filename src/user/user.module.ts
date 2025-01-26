@@ -1,0 +1,22 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt'; // Import JwtModule
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { User } from './entities/user.entity';
+
+@Module({
+  imports: [
+    // Register the User entity with TypeORM
+    TypeOrmModule.forFeature([User]),
+
+    // Configure JwtModule
+    JwtModule.register({
+      secret: 'your-secret-key', // Replace with a secure secret key
+      signOptions: { expiresIn: '1h' }, // Token expires in 1 hour
+    }),
+  ],
+  controllers: [UserController],
+  providers: [UserService],
+})
+export class UserModule {}
