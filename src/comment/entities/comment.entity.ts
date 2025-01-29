@@ -1,3 +1,4 @@
+// src/comment/entities/comment.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Product } from '../../product/entities/product.entity';
@@ -7,12 +8,12 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
+  @ManyToOne(() => User, (user) => user.comments) // Many comments belong to one user
+  @JoinColumn({ name: 'user_id' }) // Foreign key column in the database
   user: User;
 
-  @ManyToOne(() => Product)
-  @JoinColumn({ name: 'product_id' })
+  @ManyToOne(() => Product, (product) => product.comments) // Many comments belong to one product
+  @JoinColumn({ name: 'product_id' }) // Foreign key column in the database
   product: Product;
 
   @Column({ length: 200 })

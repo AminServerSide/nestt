@@ -1,6 +1,7 @@
+// src/comment/dto/create-comment.dto.ts
 export class CreateCommentDto {
-    readonly productId: number;
-    readonly userId: number;
-    readonly comment: string;
-    readonly rating: number;
-  }
+  readonly userId: number; // ID of the user writing the comment
+  readonly productId: number; // ID of the product being commented on
+  readonly comment: string; // The comment text
+  readonly rating: number; // The rating (e.g., 1-5)
+}

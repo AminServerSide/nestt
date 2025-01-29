@@ -1,4 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+// src/cart/entities/cart.entity.ts
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Product } from '../../product/entities/product.entity';
 
@@ -7,19 +18,23 @@ export class Cart {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.carts) // Many carts belong to one user
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Product)
-  @JoinColumn({ name: 'product_id' })
-  product: Product;
+  @ManyToMany(() => Product, (product) => product.carts) // Many products can be in one cart
+  @JoinTable({
+    name: 'cart_products', // Join table for many-to-many relationship
+    joinColumn: { name: 'cart_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'product_id', referencedColumnName: 'id' },
+  })
+  products: Product[];
 
-  @Column({ type: 'int' })
-  quantity: number;
+  @Column({ type: 'float', default: 0 })
+  totalPrice: number; // Total price of all products in the cart
 
-  @Column({ type: 'float' })
-  price: number;
+  @Column({ type: 'int', default: 0 })
+  quantity: number; // Total quantity of products in the cart
 
   @CreateDateColumn()
   createdAt: Date;

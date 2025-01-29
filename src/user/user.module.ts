@@ -7,16 +7,14 @@ import { User } from './entities/user.entity';
 
 @Module({
   imports: [
-    // Register the User entity with TypeORM
-    TypeOrmModule.forFeature([User]),
-
-    // Configure JwtModule
-    JwtModule.register({
+    TypeOrmModule.forFeature([User]), // Register User entity
+    JwtModule.register({ // Configure JwtModule
       secret: 'your-secret-key', // Replace with a secure secret key
       signOptions: { expiresIn: '1h' }, // Token expires in 1 hour
     }),
   ],
   controllers: [UserController],
   providers: [UserService],
+  exports: [TypeOrmModule, JwtModule], // Export JwtModule to make JwtService available
 })
 export class UserModule {}

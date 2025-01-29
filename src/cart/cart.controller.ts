@@ -1,34 +1,54 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, Query } from '@nestjs/common';
+// src/cart/cart.controller.ts
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  NotFoundException,
+} from '@nestjs/common';
 import { CartService } from './cart.service';
-import { AddToCartDto } from './dto/add-to-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
+import { Cart } from './entities/cart.entity';
 
-@Controller('cart')
+@Controller('carts')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
-  @Post('add')
-  addToCart(@Body() addToCartDto: AddToCartDto) {
-    return this.cartService.addToCart(addToCartDto);
+  @Post(':userId')
+  async createCart(@Param('userId') userId: number): Promise<Cart> {
+    return this.cartService.createCart(userId);
+  }
+
+  @Post(':cartId/add-product/:productId')
+  async addProductToCart(
+    @Param('cartId') cartId: number,
+    @Param('productId') productId: number,
+    @Body('quantity') quantity: number,
+  ): Promise<Cart> {
+    return this.cartService.addProductToCart(cartId, productId, quantity);
+  }
+
+  @Get(':cartId')
+  async getCart(@Param('cartId') cartId: number): Promise<Cart> {
+    return this.cartService.getCartById(cartId);
   }
 
   @Get('user/:userId')
-  getCartByUser(@Param('userId') userId: string) {
-    return this.cartService.getCartByUser(+userId);
+  async getCartsByUser(@Param('userId') userId: number): Promise<Cart[]> {
+    return this.cartService.getCartsByUser(userId);
   }
 
-  @Put('update/:cartItemId')
-  updateCartItem(@Param('cartItemId') cartItemId: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartService.updateCartItem(+cartItemId, updateCartDto);
+  @Delete(':cartId/remove-product/:productId')
+  async removeProductFromCart(
+    @Param('cartId') cartId: number,
+    @Param('productId') productId: number,
+  ): Promise<Cart> {
+    return this.cartService.removeProductFromCart(cartId, productId);
   }
 
-  @Delete('remove/:cartItemId')
-  removeFromCart(@Param('cartItemId') cartItemId: string) {
-    return this.cartService.removeFromCart(+cartItemId);
-  }
-
-  @Get('admin/:adminId')
-  getCartByAdmin(@Param('adminId') adminId: string) {
-    return this.cartService.getCartByAdmin(+adminId);
+  @Delete(':cartId')
+  async deleteCart(@Param('cartId') cartId: number): Promise<void> {
+    return this.cartService.deleteCart(cartId);
   }
 }

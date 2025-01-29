@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+// src/user/entities/user.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Comment } from '../../comment/entities/comment.entity';
+import { Cart } from '../../cart/entities/cart.entity'; // Import Cart entity
 
 export enum UserRole {
   USER = 'user',
@@ -35,13 +38,19 @@ export class User {
   age: number;
 
   @Column({ type: 'int', nullable: true })
-  gender: number; // 0: male, 1: female
+  gender: number;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
-  @Column({ type: 'varchar', length: 255, nullable: true }) // Add accessToken field
+  @Column({ type: 'varchar', length: 255, nullable: true })
   accessToken: string;
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
+
+  @OneToMany(() => Cart, (cart) => cart.user) // One user can have many carts
+  carts: Cart[];
 
   @CreateDateColumn()
   createdAt: Date;
