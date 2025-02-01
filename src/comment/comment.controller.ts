@@ -1,65 +1,70 @@
-// src/comment/comment.controller.ts
 import {
   Controller,
-  Get,
   Post,
   Body,
   Param,
   Put,
   Delete,
-  Query,
+  Get,
+  UseGuards,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { Comment } from './entities/comment.entity';
+import { AdminGuard } from '../user/guards/admin.guard';  
+import { get } from 'http';
 
 @Controller('comments')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  // Create a new comment
+  // Add a new comment
   @Post()
-  create(@Body() createCommentDto: CreateCommentDto): Promise<Comment> {
+  create(@Body() createCommentDto: CreateCommentDto) {
     return this.commentService.create(createCommentDto);
   }
 
-  // Get a single comment by ID
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Comment> {
-    return this.commentService.findOne(+id);
-  }
-
-  // Get all comments
-  @Get()
-  findAll(): Promise<Comment[]> {
-    return this.commentService.findAll();
-  }
-
-  // Update a comment by ID
+  // Update a comment (Admin only)
   @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCommentDto: UpdateCommentDto,
-  ): Promise<Comment> {
+  @UseGuards(AdminGuard) // Protect this route with an admin guard
+  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
     return this.commentService.update(+id, updateCommentDto);
   }
 
-  // Delete a comment by ID
+  // Delete a comment (Admin only)
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
+  remove(@Param('id') id: string) {
     return this.commentService.remove(+id);
   }
 
-  // Get all comments (for admin)
-  @Get('admin/all')
-  getCommentsByAdmin(): Promise<Comment[]> {
-    return this.commentService.getCommentsByAdmin();
+  @Get()
+  findAll() {
+    return this.commentService.findAll();
   }
 
-  // Delete a comment by admin
-  @Delete('admin/:commentId')
-  deleteCommentByAdmin(@Param('commentId') commentId: string): Promise<void> {
-    return this.commentService.deleteCommentByAdmin(+commentId);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.commentService.findOne(+id);
   }
+
+
+  
+  @Get(':id')
+  @UseGuards(AdminGuard)
+  getCommentsByAdmin(@Param('id') id: string) {
+    return this.commentService.findOne(+id);
+  }
+
+  @Delete('id')
+  @UseGuards(AdminGuard)
+  deleteCommentByAdmin(@Param('id') id: string) {
+    return this.commentService.remove(+id);
+  }
+
+
+
+
+
+
+  
 }

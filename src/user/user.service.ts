@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt'; // Import JwtService
 import { User, UserRole } from './entities/user.entity';
 import * as bcrypt from 'bcrypt'; // Import bcrypt for password hashing
+import { log } from 'node:console';
 
 @Injectable()
 export class UserService {
@@ -43,10 +44,13 @@ export class UserService {
   // Login a user and generate an access token
   async login(email: string, password: string): Promise<{ accessToken: string, userId: number }> {
     const user = await this.userRepository.findOne({ where: { email } });
+    console.log(await this.comparePassword(password, user.password));
     if (user && (await this.comparePassword(password, user.password))) {
-      const payload = { userId: user.id, role: user.role }; // Token payload
+      const payload = { userId: user.id, role: user.role , userEmail: user.email  }; // Token payload
       const accessToken = this.jwtService.sign(payload); // Generate JWT token
+      console.log(accessToken)
       user.accessToken = accessToken; // Store the token in the database
+      console.log(user)
       await this.userRepository.save(user); // Save the updated user
       return { accessToken, userId: user.id }; // Return the token and user ID
     }

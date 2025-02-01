@@ -1,4 +1,5 @@
-import { IsString, IsEmail, MinLength, IsNotEmpty } from 'class-validator';
+import { IsString, IsEmail, MinLength, IsNotEmpty, IsEnum, IsOptional } from 'class-validator';
+import { UserRole } from '../entities/user.entity'; // Import the UserRole enum
 
 export class RegisterDto {
   @IsString()
@@ -33,4 +34,8 @@ export class RegisterDto {
 
   @IsNotEmpty()
   gender?: number;
+
+  @IsEnum(UserRole)
+  @IsOptional() // Role is optional during registration, defaults to 'user'
+  role?: UserRole;
 }

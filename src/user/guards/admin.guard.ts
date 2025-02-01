@@ -1,26 +1,52 @@
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException, UnauthorizedException } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { UserRole } from '../entities/user.entity';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+  Controller,
+  Get,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { get } from 'node:http';
 
 @Injectable()
+@Controller('admin') // Add the @Controller decorator to define routes
 export class AdminGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  constructor(private readonly jwtService: JwtService) {}
+
+  // Guard logic
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const user = request.user; // Get the user object from the request
+    const token = request.headers['authorization']?.split(' ')[1];
 
-    // Check if the user is authenticated
-    if (!user) {
-      throw new UnauthorizedException('User is not authenticated');
+    if (!token) {
+      throw new UnauthorizedException('Token not found');
     }
 
-    // Check if the user has the 'admin' role
-    if (user.role === UserRole.ADMIN) {
-      return true;
-    }
+    try {
+      const decoded = this.jwtService.verify(token, {
+        secret: 'your-secret-key', // Replace with your actual secret key
+      });
 
-    // Throw an error if the user is not an admin
-    throw new ForbiddenException('You do not have permission to access this resource');
+      request.user = decoded; // Attach the decoded user to the request object
+      return true; // Allow the request
+    } catch (error) {
+      throw new UnauthorizedException('Invalid or expired token');
+    }
+  }
+
+  // Route handlers (controller logic)
+  @Get('dashboard')
+  @UseGuards(AdminGuard) // Apply the guard to this route
+  getDashboard() {
+    return 'Welcome to the admin dashboard!';
+  }
+
+  @Get('settings')
+  @UseGuards(AdminGuard) // Apply the guard to this route
+  getSettings() {
+    return 'Admin settings page';
   }
 }
+

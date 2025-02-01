@@ -1,7 +1,9 @@
-// src/user/entities/user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+// filepath: /c:/Users/A.N/Desktop/New folder/e-commerce/src/user/entities/user.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany ,OneToOne } from 'typeorm';
 import { Comment } from '../../comment/entities/comment.entity';
-import { Cart } from '../../cart/entities/cart.entity'; // Import Cart entity
+import { Cart } from '../../cart/entities/cart.entity';
+import { Wallet } from '../../wallet/entities/wallet.entity';
+import { Factor } from '../../factor/entities/factor.entity';
 
 export enum UserRole {
   USER = 'user',
@@ -49,12 +51,22 @@ export class User {
   @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
 
-  @OneToMany(() => Cart, (cart) => cart.user) // One user can have many carts
+  @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
+
+  @OneToOne(() => Wallet, (wallet) => wallet.user) // One user has one wallet
+  wallet: Wallet;
+  
+  @OneToMany(() => Factor, (factor) => factor.user) // One user can have many factors
+  factors: Factor[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  isAdmin(): boolean {
+    return this.role === UserRole.ADMIN;
+  }
 }

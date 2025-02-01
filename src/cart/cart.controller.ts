@@ -6,10 +6,11 @@ import {
   Body,
   Param,
   Delete,
-  NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { Cart } from './entities/cart.entity';
+import { AdminGuard } from '../user/guards/admin.guard';
 
 @Controller('carts')
 export class CartController {
@@ -30,16 +31,19 @@ export class CartController {
   }
 
   @Get(':cartId')
+  @UseGuards(AdminGuard) // Protect this route with an admin guard
   async getCart(@Param('cartId') cartId: number): Promise<Cart> {
     return this.cartService.getCartById(cartId);
   }
 
   @Get('user/:userId')
+  @UseGuards(AdminGuard) // Protect this route with an admin guard
   async getCartsByUser(@Param('userId') userId: number): Promise<Cart[]> {
     return this.cartService.getCartsByUser(userId);
   }
 
   @Delete(':cartId/remove-product/:productId')
+  @UseGuards(AdminGuard) // Protect this route with an admin guard
   async removeProductFromCart(
     @Param('cartId') cartId: number,
     @Param('productId') productId: number,
@@ -48,6 +52,7 @@ export class CartController {
   }
 
   @Delete(':cartId')
+  @UseGuards(AdminGuard) // Protect this route with an admin guard
   async deleteCart(@Param('cartId') cartId: number): Promise<void> {
     return this.cartService.deleteCart(cartId);
   }

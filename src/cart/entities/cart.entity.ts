@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Product } from '../../product/entities/product.entity';
+import { Factor } from '../../factor/entities/factor.entity';
 
 @Entity('carts')
 export class Cart {
@@ -35,6 +36,10 @@ export class Cart {
 
   @Column({ type: 'int', default: 0 })
   quantity: number; // Total quantity of products in the cart
+
+  @ManyToOne(() => Factor, (factor) => factor.carts) // Many carts belong to one factor
+  @JoinColumn({ name: 'factor_id' }) // Foreign key column in the database
+  factor: Factor;
 
   @CreateDateColumn()
   createdAt: Date;
