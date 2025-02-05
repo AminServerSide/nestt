@@ -445,6 +445,54 @@ http://yourapiurl.com/api/factors
 ## Transaction Management
 *Details will be added*
 
+## E-Commerce API Documentation
+
+### Base URL
+
+```
+http://yourapiurl.com/api/e-commerce
+```
+
+### Endpoints
+
+*Details will be added*
+
+## Payment API Documentation
+
+### Base URL
+
+```
+http://yourapiurl.com/api/payment
+```
+
+### Endpoints
+
+*Details will be added*
+
+## Product API Documentation
+
+### Base URL
+
+```
+http://yourapiurl.com/api/product
+```
+
+### Endpoints
+
+*Details will be added*
+
+## Transaction API Documentation
+
+### Base URL
+
+```
+http://yourapiurl.com/api/transaction
+```
+
+### Endpoints
+
+*Details will be added*
+
 ## Users API
 
 ### Users API Documentation
