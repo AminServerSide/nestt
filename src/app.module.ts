@@ -15,7 +15,7 @@ import {TransactionModule} from './transaction/transaction.module'
       host: 'localhost',
       port: 5432,
       username: 'postgres', // Replace with your PostgreSQL username
-      password: 'amin2004', // Replace with your PostgreSQL password
+      password: 'yourpassword', // Replace with your PostgreSQL password
       database: 'e-commerce', // Replace with your database name
       entities: [__dirname + '/**/*.entity{.ts,.js}'], // Ensure this path is correct
       synchronize: true, // Automatically creates database tables (for development only)
