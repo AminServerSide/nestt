@@ -35,8 +35,166 @@ This project is a **modular** e-commerce backend built with **NestJS**, **TypeSc
    cd nestt
 
 
+# API Documentation
 
-# API Documentation(how to use)
+This document provides detailed information about the API endpoints and how to use them with Postman.
+
+## Table of Contents
+1. [User Management](#user-management)
+2. [Product Management](#product-management)
+3. [Comment System](#comment-system)
+4. [Shopping Cart](#shopping-cart)
+5. [Wallet System](#wallet-system)
+6. [Factor/Invoice](#factor)
+7. [Transaction Management](#transaction-management)
+
+## Setup Instructions
+1. Download and install [Postman](https://www.postman.com/downloads/)
+2. Import the provided collection files into Postman
+3. Set up your environment variables (if required)
+
+## User Management
+*Details will be added*
+
+## Product Management
+
+The Product API provides endpoints for managing products in the system. Some endpoints require admin privileges.
+
+### Base URL
+```
+/products
+```
+
+### Endpoints
+
+#### 1. Create Product (Admin Only)
+```http
+POST /products
+```
+
+**Headers:**
+- `Authorization`: Bearer token (Admin token required)
+- `Content-Type`: application/json
+
+**Request Body:**
+```json
+{
+    "name": "Product Name",
+    "description": "Product Description",
+    "price": 99.99,
+    "stock": 100,
+    "image": "image-url",
+    "category": "category-name"
+}
+```
+
+#### 2. Update Product (Admin Only)
+```http
+PUT /products/:id
+```
+
+**Headers:**
+- `Authorization`: Bearer token (Admin token required)
+- `Content-Type`: application/json
+
+**Parameters:**
+- `id`: Product ID (number)
+
+**Request Body:**
+```json
+{
+    "name": "Updated Product Name",
+    "description": "Updated Description",
+    "price": 149.99,
+    "stock": 50,
+    "image": "new-image-url",
+    "category": "new-category"
+}
+```
+
+#### 3. Delete Product (Admin Only)
+```http
+DELETE /products/:id
+```
+
+**Headers:**
+- `Authorization`: Bearer token (Admin token required)
+
+**Parameters:**
+- `id`: Product ID (number)
+
+#### 4. Search Products
+```http
+GET /products/search
+```
+
+**Query Parameters:**
+- Any search criteria defined in SearchProductDto
+
+#### 5. Get Product by ID
+```http
+GET /products/:id
+```
+
+**Parameters:**
+- `id`: Product ID (number)
+
+#### 6. Get All Products (Admin Only)
+```http
+GET /products
+```
+
+**Headers:**
+- `Authorization`: Bearer token (Admin token required)
+
+#### 7. Add Comment to Product
+```http
+POST /products/comment/:id
+```
+
+**Parameters:**
+- `id`: Product ID (number)
+
+**Request Body:**
+```json
+{
+    "comment": "Your comment text"
+}
+```
+
+### Setting up in Postman
+
+1. Create a new collection named "Products API"
+2. Add a new request for each endpoint
+3. For admin-protected routes:
+   - Add the Authorization header with your admin token
+   - Format: `Bearer your-token-here`
+4. Set the Content-Type header to application/json for POST and PUT requests
+5. For requests with parameters:
+   - Replace `:id` in the URL with the actual product ID
+   - For search, add your query parameters to the URL
+
+### Testing the API
+
+1. Start with creating a product (requires admin token)
+2. Use the returned product ID to test other endpoints
+3. Test search functionality with different query parameters
+4. Ensure you have admin privileges for protected routes
+
+## Comment System
+*Details will be added*
+
+## Shopping Cart
+*Details will be added*
+
+## Wallet System
+*Details will be added*
+
+## Factor
+*Details will be added*
+
+## Transaction Management
+*Details will be added*
 
 ## Users API
 
@@ -167,4 +325,3 @@ Endpoint: DELETE http://localhost:3000/users/:userId
 ```
 Description: Removes a user from the system.
 Response: Confirms user deletion.
-
