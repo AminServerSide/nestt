@@ -447,130 +447,113 @@ http://yourapiurl.com/api/factors
 
 ## Users API
 
-The Users API handles authentication, profile management, and user-related operations.
+### Users API Documentation
 
----
-
-### 1. Register a New User
-
-**Endpoint:** `POST http://localhost:3000/users/register`
-
-**Description:** Creates a new user account.
-
-**Request Body:**
-```json
-{
-  "username": "admin",
-  "firstname": "test1",
-  "lastname": "test1",
-  "email": "test@example.com",
-  "password": "password123",
-  "phone": "1234567890",
-  "address": "123 dm Main St",
-  "age": 20,
-  "gender": 0
-}
+### Base URL
 
 ```
+http://yourapiurl.com/api/users
+```
 
-1. Register a New User
-Endpoint: POST http://localhost:3000/users/register
-Description: Creates a new user account.
-Request Body:
-json 
-```
-{
-  "username": "admin",
-  "firstname": "test1",
-  "lastname": "test1",
-  "email": "test@example.com",
-  "password": "password123",
-  "phone": "1234567890",
-  "address": "123 dm Main St",
-  "age": 20,
-  "gender": 0
-}
-```
-Response: Returns user details upon successful registration.
-2. User Login
-Endpoint: POST http://localhost:3000/users/login
-Description: Authenticates the user and returns a JWT token.
-Request Body:
-json
-Copy
-Edit
-```
-{
-  "email": "test@example.com",
-  "password": "password123"
-} 
-```
-Response: Returns an authentication token.
-3. User Logout
-Endpoint: POST http://localhost:3000/users/logout
-Description: Logs out the user.
-Request Body:
-json
-Copy
-Edit
-```
-{
-  "userId": 8
-}
+### Endpoints
 
-```
-Response: Confirms the user has logged out.
-4. Edit User Profile
-Endpoint: PUT http://localhost:3000/users/edit-profile
-Description: Updates the user's profile details.
-Request Body:
-json
-Copy
-Edit
-```
-{
-  "userId": 8
-}
-```
-Response: Returns the updated user profile.
-5. Reset Password
-Endpoint: POST http://localhost:3000/users/reset-password
-Description: Changes the user's password.
-Request Body:
-json
-Copy
-Edit
-```
-{
-  "oldPassword": "newpassword123",
-  "newPassword": "newpassword1234"
-}
-```
-Response: Confirms password change.
-6. Forgot Password
-Endpoint: POST http://localhost:3000/users/forgot-password
-Description: Resets the password using a verification code.
-Request Body:
-json
-Copy
-Edit
-```
-{
-  "email": "mmmdd@example.com",
-  "verificationCode": "123456",
-  "newPassword": "newpassword444"
-}
-```
-Response: Confirms password reset.
-7. Get All Users
-```
-Endpoint: GET http://localhost:3000/users
-```
-Description: Retrieves a list of all registered users.
-Response: Returns an array of user objects.
-8. Delete a User
-```
-Endpoint: DELETE http://localhost:3000/users/:userId
-```
-Description: Removes a user from the system.
-Response: Confirms user deletion.
+#### Register a New User
+- **URL**: `/register`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "username": "admin",
+    "firstname": "test1",
+    "lastname": "test1",
+    "email": "test@example.com",
+    "password": "password123",
+    "phone": "1234567890",
+    "address": "123 dm Main St",
+    "age": 20,
+    "gender": 0
+  }
+  ```
+
+#### User Login
+- **URL**: `/login`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "email": "test@example.com",
+    "password": "password123"
+  }
+  ```
+
+#### User Logout
+- **URL**: `/logout`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "userId": 8
+  }
+  ```
+
+#### Edit User Profile
+- **URL**: `/edit-profile`
+- **Method**: `PUT`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "userId": 8
+  }
+  ```
+
+#### Reset Password
+- **URL**: `/reset-password`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "oldPassword": "newpassword123",
+    "newPassword": "newpassword1234"
+  }
+  ```
+
+#### Forgot Password
+- **URL**: `/forgot-password`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "email": "mmmdd@example.com",
+    "verificationCode": "123456",
+    "newPassword": "newpassword444"
+  }
+  ```
+
+#### Get All Users
+- **URL**: `/`
+- **Method**: `GET`
+
+#### Delete a User
+- **URL**: `/:userId`
+- **Method**: `DELETE`
+
+### Setting up in Postman
+
+1. Create a new collection named "Users API"
+2. Add a new request for each endpoint
+3. Set the Content-Type header to application/json for POST requests
+4. For requests with parameters:
+   - Replace `:id` in the URL with the actual user ID
+
+### Testing the API
+
+1. Start with registering a new user
+2. Use the returned user ID to test other endpoints
+3. Ensure the API server is running before making requests
+4. Replace `yourapiurl.com` with the actual base URL of your API server.
