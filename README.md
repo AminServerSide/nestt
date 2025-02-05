@@ -182,7 +182,72 @@ POST /products/comment/:id
 4. Ensure you have admin privileges for protected routes
 
 ## Comment System
-*Details will be added*
+
+### Comment API Documentation
+
+This document provides instructions for working with the Comment API using Postman.
+
+### Base URL
+
+```
+http://yourapiurl.com/api/comments
+```
+
+### Endpoints
+
+#### Create a Comment
+- **URL**: `/`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "userId": 1,
+    "productId": 101,
+    "comment": "Great product!",
+    "rating": 5
+  }
+  ```
+
+#### Update a Comment
+- **URL**: `/:id`
+- **Method**: `PUT`
+- **Headers**: `Content-Type: application/json`, `Authorization: Bearer <token>`
+- **Body**: 
+  ```json
+  {
+    "comment": "Updated comment text",
+    "rating": 4
+  }
+  ```
+
+#### Delete a Comment
+- **URL**: `/:id`
+- **Method**: `DELETE`
+- **Headers**: `Authorization: Bearer <token>`
+
+#### Get All Comments
+- **URL**: `/`
+- **Method**: `GET`
+
+#### Get a Single Comment
+- **URL**: `/:id`
+- **Method**: `GET`
+
+### Authorization
+
+- Some endpoints require an admin token for authorization. Use the `Authorization` header with a Bearer token for these endpoints.
+
+### Postman Collection
+
+You can import the following collection into Postman to quickly test the API endpoints:
+
+[Download Postman Collection](http://yourapiurl.com/path/to/postman_collection.json)
+
+### Notes
+
+- Ensure that the API server is running before making requests.
+- Replace `yourapiurl.com` with the actual base URL of your API server.
 
 ## Shopping Cart
 *Details will be added*
