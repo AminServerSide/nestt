@@ -250,13 +250,197 @@ You can import the following collection into Postman to quickly test the API end
 - Replace `yourapiurl.com` with the actual base URL of your API server.
 
 ## Shopping Cart
-*Details will be added*
+
+### Cart API Documentation
+
+### Base URL
+
+```
+http://yourapiurl.com/api/carts
+```
+
+### Endpoints
+
+#### Create a Cart
+- **URL**: `/:userId`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Parameters**: Optional `factorId`
+
+#### Add Product to Cart
+- **URL**: `/:cartId/add-product/:productId`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: 
+  ```json
+  {
+    "quantity": 2
+  }
+  ```
+
+#### Get Cart
+- **URL**: `/:cartId`
+- **Method**: `GET`
+- **Headers**: `Authorization: Bearer <token>`
+
+#### Get Carts by User
+- **URL**: `/user/:userId`
+- **Method**: `GET`
+- **Headers**: `Authorization: Bearer <token>`
+
+#### Remove Product from Cart
+- **URL**: `/:cartId/remove-product/:productId`
+- **Method**: `DELETE`
+- **Headers**: `Authorization: Bearer <token>`
+
+### Setting up in Postman
+
+1. Create a new collection named "Cart API"
+2. Add a new request for each endpoint
+3. For protected routes:
+   - Add the Authorization header with your token
+   - Format: `Bearer your-token-here`
+4. Set the Content-Type header to application/json for POST requests
+5. For requests with parameters:
+   - Replace `:id` in the URL with the actual cart ID or product ID
+
+### Testing the API
+
+1. Start with creating a cart
+2. Use the returned cart ID to test other endpoints
+3. Test adding and removing products from the cart
+4. Ensure you have the required token for protected routes
 
 ## Wallet System
-*Details will be added*
+
+### Wallet API Documentation
+
+### Base URL
+
+```
+http://yourapiurl.com/api/wallets
+```
+
+### Endpoints
+
+#### Create Wallet
+- **URL**: `/`
+- **Method**: `POST`
+- **Body**: `CreateWalletDto`
+
+#### Get Wallet by ID
+- **URL**: `/:id`
+- **Method**: `GET`
+
+#### Update Wallet
+- **URL**: `/:id`
+- **Method**: `PUT`
+- **Body**: `UpdateWalletDto`
+
+#### Delete Wallet
+- **URL**: `/:id`
+- **Method**: `DELETE`
+
+#### Add Funds
+- **URL**: `/:id/add-funds`
+- **Method**: `POST`
+- **Body**: 
+  ```json
+  {
+    "amount": "100"
+  }
+  ```
+
+#### Deduct Funds
+- **URL**: `/:id/deduct-funds`
+- **Method**: `POST`
+- **Body**: 
+  ```json
+  {
+    "amount": "50"
+  }
+  ```
+
+#### Get Wallet by User ID
+- **URL**: `/user/:userId`
+- **Method**: `GET`
+
+### Setting up in Postman
+
+1. Create a new collection named "Wallet API"
+2. Add a new request for each endpoint
+3. For protected routes:
+   - Add the Authorization header with your token
+   - Format: `Bearer your-token-here`
+4. Set the Content-Type header to application/json for POST requests
+5. For requests with parameters:
+   - Replace `:id` in the URL with the actual wallet ID or user ID
+
+### Testing the API
+
+1. Start with creating a wallet
+2. Use the returned wallet ID to test other endpoints
+3. Test adding and deducting funds from the wallet
+4. Ensure you have the required token for protected routes
 
 ## Factor
-*Details will be added*
+
+### Factor API Documentation
+
+### Base URL
+
+```
+http://yourapiurl.com/api/factors
+```
+
+### Endpoints
+
+#### Create a Factor
+- **URL**: `/`
+- **Method**: `POST`
+- **Headers**: `Content-Type: application/json`
+- **Body**: `CreateFactorDto`
+
+#### Get User Factors
+- **URL**: `/user/:userId`
+- **Method**: `GET`
+
+#### Get Factor by ID
+- **URL**: `/:id`
+- **Method**: `GET`
+
+#### Update Factor Status
+- **URL**: `/:id/status`
+- **Method**: `PUT`
+- **Body**: `UpdateFactorStatusDto`
+
+#### Apply Discount
+- **URL**: `/:id/discount`
+- **Method**: `POST`
+- **Body**: `ApplyDiscountDto`
+
+#### Checkout Factor
+- **URL**: `/:id/checkout`
+- **Method**: `POST`
+- **Body**: `CheckoutFactorDto`
+
+### Setting up in Postman
+
+1. Create a new collection named "Factor API"
+2. Add a new request for each endpoint
+3. For protected routes:
+   - Add the Authorization header with your token
+   - Format: `Bearer your-token-here`
+4. Set the Content-Type header to application/json for POST requests
+5. For requests with parameters:
+   - Replace `:id` in the URL with the actual factor ID or user ID
+
+### Testing the API
+
+1. Start with creating a factor
+2. Use the returned factor ID to test other endpoints
+3. Test updating the factor status and applying discounts
+4. Ensure you have the required token for protected routes
 
 ## Transaction Management
 *Details will be added*
